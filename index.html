@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mapa Mental</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <header class="header">
+            <div class="logo">
+                <span class="logo-icon">🧠</span>
+                <span>Mapa Mental</span>
+            </div>
+            
+            <nav class="menu-bar">
+                <div class="menu-item">
+                    <button class="menu-btn">📁 Arquivo ▾</button>
+                    <div class="menu-dropdown">
+                        <button class="dropdown-item" onclick="newMindMap()">📄 Novo Mapa <span class="shortcut">Ctrl+N</span></button>
+                        <button class="dropdown-item" onclick="loadMindMap()">📂 Abrir <span class="shortcut">Ctrl+O</span></button>
+                        <button class="dropdown-item" onclick="saveMindMap()">💾 Salvar <span class="shortcut">Ctrl+S</span></button>
+                        <div class="dropdown-divider"></div>
+                        <button class="dropdown-item" onclick="importTXT()">📥 Importar TXT</button>
+                        <button class="dropdown-item" onclick="exportTXT()">📤 Exportar TXT</button>
+                        <div class="dropdown-divider"></div>
+                        <button class="dropdown-item" onclick="exportImage('png')">🖼️ Exportar PNG</button>
+                        <button class="dropdown-item" onclick="exportHTML()">🌐 Exportar HTML</button>
+                    </div>
+                </div>
+                
+                <div class="menu-item">
+                    <button class="menu-btn">✏️ Editar ▾</button>
+                    <div class="menu-dropdown">
+                        <button class="dropdown-item" onclick="undo()">↶ Desfazer <span class="shortcut">Ctrl+Z</span></button>
+                        <button class="dropdown-item" onclick="redo()">↷ Refazer <span class="shortcut">Ctrl+Y</span></button>
+                        <div class="dropdown-divider"></div>
+                        <button class="dropdown-item" onclick="copyNode()">📋 Copiar <span class="shortcut">Ctrl+C</span></button>
+                        <button class="dropdown-item" onclick="pasteNode()">📋 Colar <span class="shortcut">Ctrl+V</span></button>
+                        <button class="dropdown-item" onclick="duplicateNode()">⧉ Duplicar <span class="shortcut">Ctrl+D</span></button>
+                        <div class="dropdown-divider"></div>
+                        <button class="dropdown-item" onclick="deleteSelectedNodes()">🗑️ Excluir <span class="shortcut">Del</span></button>
+                        <button class="dropdown-item" onclick="selectAll()">☑️ Selecionar Tudo <span class="shortcut">Ctrl+A</span></button>
+                    </div>
+                </div>
+                
+                <div class="menu-item">
+                    <button class="menu-btn">👁️ Visualizar ▾</button>
+                    <div class="menu-dropdown">
+                        <button class="dropdown-item" onclick="zoomIn()">🔍+ Zoom In <span class="shortcut">Ctrl++</span></button>
+                        <button class="dropdown-item" onclick="zoomOut()">🔍- Zoom Out <span class="shortcut">Ctrl+-</span></button>
+                        <button class="dropdown-item" onclick="resetZoom()">🔄 Reset Zoom <span class="shortcut">Ctrl+0</span></button>
+                        <div class="dropdown-divider"></div>
+                        <button class="dropdown-item" onclick="fitToScreen()">📐 Ajustar à Tela</button>
+                        <button class="dropdown-item" onclick="centerOnRoot()">🎯 Centralizar Raiz</button>
+                        <div class="dropdown-divider"></div>
+                        <!-- <button class="dropdown-item" onclick="toggleMinimap()">🗺️ Minimap</button> -->
+                        <button class="dropdown-item" onclick="toggleFullscreen()">⛶ Tela Cheia <span class="shortcut">F11</span></button>
+                    </div>
+                </div>
+                
+                <div class="menu-item">
+                    <button class="menu-btn">🔧 Ferramentas ▾</button>
+                    <div class="menu-dropdown">
+                        <button class="dropdown-item" onclick="autoLayout()">📊 Auto Layout</button>
+                        <button class="dropdown-item" onclick="expandAll()">➕ Expandir Tudo</button>
+                        <button class="dropdown-item" onclick="collapseAll()">➖ Recolher Tudo</button>
+                    </div>
+                </div>
+                
+                <div class="menu-item">
+                    <button class="menu-btn">❓ Ajuda ▾</button>
+                    <div class="menu-dropdown">
+                        <button class="dropdown-item" onclick="showShortcuts()">⌨️ Atalhos de Teclado</button>
+                        <button class="dropdown-item" onclick="showAbout()">ℹ️ Sobre</button>
+                    </div>
+                </div>
+            </nav>
+            
+            <div class="header-actions">              
+                <div class="theme-toggle">
+                    <span>☀️</span>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="themeToggle" onchange="toggleTheme()">
+                        <span class="toggle-slider"></span>
+                    </label>
+                    <span>🌙</span>
+                </div>
+            </div>
+        </header>
+        
+        <!-- Toolbar -->
+        <div class="toolbar">
+            <div class="toolbar-group">
+                <button class="toolbar-btn" onclick="undo()" title="Desfazer (Ctrl+Z)">↶</button>
+                <button class="toolbar-btn" onclick="redo()" title="Refazer (Ctrl+Y)">↷</button>
+            </div>
+            
+            <div class="toolbar-group">
+                <button class="toolbar-btn primary" onclick="showAddNodeModal('child')" title="Adicionar Nó">➕</button>
+                <button class="toolbar-btn" onclick="deleteSelectedNodes()" title="Excluir (Del)">🗑️</button>
+            </div>
+            
+            <div class="toolbar-group">Conexões:
+                <select class="toolbar-select" id="connectionStyle" onchange="updateConnectionStyle()">
+                    <option value="curve">Curva</option>
+                    <option value="straight">Reta</option>
+                    <option value="orthogonal">Ortogonal</option>
+                </select>
+            </div>
+            
+            <div class="toolbar-group">
+                <button class="toolbar-btn" onclick="zoomOut()" title="Zoom Out">🔍-</button>
+                <span class="zoom-display" id="zoomDisplay">100%</span>
+                <button class="toolbar-btn" onclick="zoomIn()" title="Zoom In">🔍+</button>
+            </div>
+            
+            <div class="toolbar-group">
+                <button class="toolbar-btn" onclick="autoLayout()" title="Auto Layout">📊</button>
+                <button class="toolbar-btn" onclick="fitToScreen()" title="Ajustar à Tela">📐</button>
+                <button class="toolbar-btn" onclick="centerOnRoot()" title="Centralizar">🎯</button>
+            </div>
+        </div>
+        
+        <!-- Main Content -->
+        <div class="main-content">          
+            <!-- Canvas Container -->
+            <div class="canvas-container">
+                <canvas id="canvas"></canvas>
+            </div>
+            
+            <!-- Right Panel (Editor) -->
+            <aside class="right-panel hidden" id="editorPanel">
+                <div class="panel-header">
+                    <span class="panel-title">✏️ Editar Nó</span>
+                    <button class="panel-close" onclick="closeEditor()">×</button>
+                </div>
+                
+                <div class="panel-content">
+                    <div class="form-group">
+                        <label>Texto</label>
+                        <!-- <input type="text" id="nodeLabel" placeholder="Digite o texto..." oninput="updateNodePreview()"> -->
+                        <input type="text" id="nodeLabel" placeholder="Digite o texto...">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Ícone</label>
+                        <div class="icon-grid" id="iconGrid"></div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Forma</label>
+                            <select id="nodeShape" onchange="updateDimensionFields()">   
+                                <option value="rounded-rect">Retângulo Arredondado</option>
+                                <option value="rectangle">Retângulo</option>
+                                <option value="circle">Círculo</option>
+                                <option value="ellipse">Elipse</option>
+                                <option value="diamond">Diamante</option>
+                                <option value="hexagon">Hexágono</option>
+                                <option value="cloud">Nuvem</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Prioridade</label>
+                            <select id="nodePriority">
+                                <option value="">Nenhuma</option>
+                                <option value="high">🔴 Alta</option>
+                                <option value="medium">🟡 Média</option>
+                                <option value="low">🟢 Baixa</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Cor de Fundo</label>
+                        <div class="color-input-group">
+                            <input type="color" id="nodeColor" value="#3498db">
+                            <input type="text" id="nodeColorText" value="#3498db" oninput="syncColorFromText('nodeColor')">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Cor do Texto</label>
+                        <div class="color-input-group">
+                            <input type="color" id="nodeTextColor" value="#ffffff">
+                            <input type="text" id="nodeTextColorText" value="#ffffff" oninput="syncColorFromText('nodeTextColor')">
+                        </div>
+                    </div>
+
+                    <div class="form-row" id="dimensionFieldsDefault">
+                        <div class="form-group">
+                            <label>Largura</label>
+                            <input type="number" id="nodeWidth" value="150" min="50" max="400">
+                        </div>
+                        <div class="form-group">
+                            <label>Altura</label>
+                            <input type="number" id="nodeHeight" value="70" min="30" max="200">
+                        </div>
+                    </div>
+
+                    <div class="form-row" id="dimensionFieldsCircle" style="display: none;">
+                        <div class="form-group">
+                            <label>Raio</label>
+                            <input type="number" id="nodeWidth" value="150" min="50" max="400">
+                        </div>
+                    </div>                   
+                    
+                    <div class="form-group">
+                        <label>Tamanho da Fonte</label>
+                        <input type="number" id="nodeTextSize" value="14" min="8" max="32">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Notas</label>
+                        <textarea id="nodeNotes" placeholder="Adicione notas ou descrição..."></textarea>
+                    </div>
+                </div>
+                
+                <div class="panel-actions">
+                    <button class="btn btn-secondary" onclick="closeEditor()">Cancelar</button>
+                    <button class="btn btn-success" onclick="saveNodeChanges()">💾 Salvar</button>
+                </div>
+            </aside>
+        </div>
+        
+        <!-- Status Bar -->
+        <div class="status-bar">
+            <div class="status-left">
+                <span class="status-item" id="statusNodes">📦 Nós: 0</span>
+                <span class="status-item" id="statusSelected">✓ Selecionados: 0</span>
+                <span class="status-item" id="statusZoom">🔍 Zoom: 100%</span>
+            </div>
+            <div class="status-right">
+                <span class="status-item">Mapa Mental Pro</span>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Context Menu -->
+    <div class="context-menu" id="contextMenu">
+        <div class="context-menu-item" onclick="showAddNodeModal('child')">➕ Adicionar Nó</div>
+        <div class="context-menu-divider"></div>
+        <div class="context-menu-item" onclick="openEditor()">✏️ Editar</div>
+        <div class="context-menu-item" onclick="copyNode()">📋 Copiar</div>
+        <div class="context-menu-item" onclick="duplicateNode()">⧉ Duplicar</div>
+        <div class="context-menu-divider"></div>
+        <div class="context-menu-item" onclick="centerOnNode()">🎯 Centralizar</div>
+        <div class="context-menu-item" onclick="toggleCollapse()">📁 Expandir/Recolher</div>
+        <div class="context-menu-divider"></div>
+        <div class="context-menu-item danger" onclick="deleteSelectedNodes()">🗑️ Excluir</div>
+    </div>
+    
+    <!-- Toast -->
+    <div class="toast" id="toast"></div>
+    
+    <!-- Tooltip -->
+    <div class="tooltip" id="tooltip"></div>
+    
+    <!-- Add Node Modal -->
+    <div class="modal" id="addNodeModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="addNodeTitle">Adicionar Nó</h2>
+                <button class="modal-close" onclick="closeAddNodeModal()">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>Texto do Nó</label>
+                    <input type="text" id="newNodeLabel" placeholder="Digite o texto..." autofocus>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Forma</label>
+                        <select id="newNodeShape">
+                            <option value="rounded-rect">Retângulo Arredondado</option>
+                            <option value="rectangle">Retângulo</option>
+                            <option value="circle">Círculo</option>
+                            <option value="ellipse">Elipse</option>
+                            <option value="diamond">Diamante</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Cor</label>
+                        <input type="color" id="newNodeColor" value="#3498db">
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeAddNodeModal()">Cancelar</button>
+                <button class="btn btn-primary" onclick="addNode()">➕ Adicionar</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Shortcuts Modal -->
+    <div class="modal" id="shortcutsModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>⌨️ Atalhos de Teclado</h2>
+                <button class="modal-close" onclick="closeShortcutsModal()">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="shortcuts-grid">
+                    <div class="shortcut-item"><span>Abrir</span><div class="shortcut-keys"><span class="key">Ctrl</span><span class="key">O</span></div></div>
+                    <div class="shortcut-item"><span>Salvar</span><div class="shortcut-keys"><span class="key">Ctrl</span><span class="key">S</span></div></div>
+                    <div class="shortcut-item"><span>Desfazer</span><div class="shortcut-keys"><span class="key">Ctrl</span><span class="key">Z</span></div></div>
+                    <div class="shortcut-item"><span>Refazer</span><div class="shortcut-keys"><span class="key">Ctrl</span><span class="key">Y</span></div></div>
+                    <div class="shortcut-item"><span>Copiar</span><div class="shortcut-keys"><span class="key">Ctrl</span><span class="key">C</span></div></div>
+                    <div class="shortcut-item"><span>Colar</span><div class="shortcut-keys"><span class="key">Ctrl</span><span class="key">V</span></div></div>
+                    <div class="shortcut-item"><span>Duplicar</span><div class="shortcut-keys"><span class="key">Ctrl</span><span class="key">D</span></div></div>
+                    <div class="shortcut-item"><span>Excluir</span><div class="shortcut-keys"><span class="key">Del</span>ou<span class="key">Backspace</span></div></div>
+                    <div class="shortcut-item"><span>Selecionar Tudo</span><div class="shortcut-keys"><span class="key">Ctrl</span><span class="key">A</span></div></div>
+                    <div class="shortcut-item"><span>Zoom In</span><div class="shortcut-keys"><span class="key">Ctrl</span><span class="key">+</span></div></div>
+                    <div class="shortcut-item"><span>Zoom Out</span><div class="shortcut-keys"><span class="key">Ctrl</span><span class="key">-</span></div></div>
+                    <div class="shortcut-item"><span>Reset Zoom</span><div class="shortcut-keys"><span class="key">Ctrl</span><span class="key">0</span></div></div>
+                    <div class="shortcut-item"><span>Editar Nó</span><div class="shortcut-keys"><span class="key">F2</span></div></div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" onclick="closeShortcutsModal()">Fechar</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Stats Modal -->
+    <div class="modal" id="statsModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>📈 Estatísticas do Mapa</h2>
+                <button class="modal-close" onclick="closeStatsModal()">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="stats-grid" id="statsGrid"></div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" onclick="closeStatsModal()">Fechar</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
