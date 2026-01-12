@@ -106,7 +106,6 @@ Clique em 📊 Auto Layout
 
 | Atalho | O que faz |
 |--------|-----------|
-| `TAB` | Adicionar nó irmão |
 | `DELETE` | Excluir nó |
 | `CTRL+Z` | Desfazer |
 | `CTRL+Y` | Refazer |
