@@ -1,50 +1,79 @@
 # 🧠 Mapa Mental
 
-Aplicação web interativa para criar, organizar e visualizar mapas mentais. Organize suas ideias, projetos e estudos de forma visual e intuitiva.
+> Uma aplicação web interativa e intuitiva para criar, organizar e visualizar mapas mentais. Transforme suas ideias em estruturas visuais claras e bem organizadas.
 
-## ✨ Recursos
+## 📋 Sobre
 
-- 🎨 **Personalizável**: Cores, ícones (30+) e formas para cada nó
-- 💾 **Múltiplos formatos**: Salve em JSON, exporte em PNG, JPG, HTML ou TXT
-- ⌨️ **Atalhos intuitivos**: Desfazer/Refazer, Auto Layout e zoom
-- 📊 **Organização visual**: Arraste nós, expanda/recolha ramos
-- 🎯 **Prioridades**: Marque tarefas como Alta, Média ou Baixa
-- 💻 **Local e offline**: Sem dependências de internet, tudo no navegador
+**Mapa Mental** é uma ferramenta gratuita e open-source que permite:
+- Criar mapas mentais colaborativos e interativos
+- Organizar projetos, ideias e estudos visualmente
+- Exportar em múltiplos formatos (JSON, PNG, JPG, HTML, TXT)
+- Trabalhar 100% offline, sem necessidade de internet
 
-## 🚀 Como Usar
+## ✨ Principais Recursos
 
-1. Abra `index.html` no navegador
-2. Clique no nó central e pressione ENTER para adicionar
-3. Organize arrastrando os nós
-4. Use o painel lateral para personalizar
-5. Salve seu trabalho com CTRL+S
+| Recurso | Descrição |
+|---------|-----------|
+| 🎨 **Personalizável** | 30+ ícones, 5 formas diferentes e paleta de cores completa |
+| 💾 **Multi-formato** | Exporte em JSON, PNG, JPG, HTML ou TXT |
+| ⌨️ **Atalhos** | Desfazer/Refazer, Auto Layout, Zoom e mais |
+| 📊 **Visual** | Arraste nós, expanda/recolha ramos, zoom intuitivo |
+| 🎯 **Prioridades** | Marque tarefas como Alta, Média ou Baixa |
+| 💻 **Offline** | Tudo no navegador, sem servidor ou internet |
 
-## ⌨️ Atalhos Principais
+## 🚀 Quick Start
+
+```bash
+1. Abra index.html no navegador
+2. Clique no nó central
+3. Pressione ENTER para adicionar novo nó
+4. Arraste para organizar
+5. Use o painel lateral para personalizar
+6. Salve com CTRL+S
+```
+
+## ⌨️ Atalhos Essenciais
 
 | Atalho | Ação |
 |--------|------|
-| `ENTER` | Novo nó |
-| `DELETE` | Excluir nó |
+| `ENTER` | Adicionar novo nó |
+| `DELETE` | Excluir nó selecionado |
 | `CTRL+Z` | Desfazer |
 | `CTRL+Y` | Refazer |
 | `CTRL+S` | Salvar |
-| `+` / `-` | Zoom |
-
-## 📁 Formatos de Exportação
-
-- **JSON**: Salve e abra novamente no app
-- **PNG/JPG**: Compartilhe como imagem
-- **HTML**: Arquivo interativo para navegador
-- **TXT**: Texto indentado para documentação
+| `CTRL++` / `CTRL+-` | Zoom in/out |
+| `ESC` | Cancelar edição |
 
 ## 💡 Casos de Uso
 
-- Planejamento de projetos
-- Brainstorm de ideias
-- Estrutura de estudo
-- Análise de problemas
-- Documentação visual
+- **Planejamento** - Organize projetos e cronogramas
+- **Brainstorm** - Capture ideias rapidamente
+- **Estudo** - Estruture conteúdo e resumos
+- **Análise** - Decomponha problemas complexos
+- **Documentação** - Crie diagramas visuais
+
+## 📁 Formatos de Exportação
+
+- **JSON** → Salve e abra novamente no aplicativo
+- **PNG/JPG** → Compartilhe como imagem
+- **HTML** → Arquivo interativo (zoom, tooltip, expandir)
+- **TXT** → Texto indentado para documentação
+
+## 🛠️ Tecnologias
+
+- HTML5 + CSS3
+- JavaScript (Vanilla)
+- Canvas API para renderização
+- Local Storage para persistência
+
+## 📝 Licença
+
+Este projeto é open-source. Sinta-se livre para usar, modificar e distribuir.
+
+## 🤝 Contribuições
+
+Encontrou um bug? Tem uma sugestão? Contribuições são bem-vindas!
 
 ---
 
-**Pronto? Abra o `index.html` e crie seu primeiro mapa! 🎉**
+**Pronto para começar? Abra o `index.html` no seu navegador e crie seu primeiro mapa mental! 🎉**
