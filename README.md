@@ -13,11 +13,3 @@
 ## 📝 Licença
 
 Este projeto é open-source. Sinta-se livre para usar, modificar e distribuir.
-
-## 🤝 Contribuições
-
-Encontrou um bug? Tem uma sugestão? Contribuições são bem-vindas!
-
----
-
-**Pronto para começar? Abra o `index.html` no seu navegador e crie seu primeiro mapa mental! 🎉**
